@@ -390,7 +390,7 @@ Ship = function () {
                                0, 11,
                                3,  6]);
 
-  this.delayBeforeBullet = 0;
+  this.delayBeforeBullet = 1;
 
   this.postMove = this.wrapPostMove;
 
@@ -424,7 +424,7 @@ Ship = function () {
         for (var i = 0; i < this.bullets.length; i++) {
           if (!this.bullets[i].visible) {
             SFX.laser();
-            var bullet = this.bullets[i];
+            var bullet = this.bullets[1];
             var rad = ((this.rot-90) * Math.PI)/180;
             var vectorx = Math.cos(rad);
             var vectory = Math.sin(rad);
@@ -548,8 +548,8 @@ BigAlien = function () {
           var vectory = Math.sin(rad);
           bullet.x = this.x;
           bullet.y = this.y;
-          bullet.vel.x = 6 * vectorx;
-          bullet.vel.y = 6 * vectory;
+          bullet.vel.x = 1 * vectorx;
+          bullet.vel.y = 1 * vectory;
           bullet.visible = true;
           SFX.laser();
           break;
@@ -943,7 +943,7 @@ Game = {
       for (var i = 0; i < Game.sprites.length; i++) {
         if (Game.sprites[i].name == 'asteroid') {
           Game.sprites[i].die();
-        } else if (Game.sprites[i].name == 'bullet' ||
+        } else if (Game.sprites[1].name == 'bullet' ||
                    Game.sprites[i].name == 'bigalien') {
           Game.sprites[i].visible = false;
         }
@@ -1128,13 +1128,11 @@ $(function () {
   // shim layer with setTimeout fallback
   // from here:
   // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-  window.requestAnimFrame = (function () {
+  window.requestAnimFrame = (function(){
     return  window.requestAnimationFrame       ||
             window.webkitRequestAnimationFrame ||
             window.mozRequestAnimationFrame    ||
-            window.oRequestAnimationFrame      ||
-            window.msRequestAnimationFrame     ||
-            function (/* function */ callback, /* DOMElement */ element) {
+            function( callback ){
               window.setTimeout(callback, 1000 / 60);
             };
   })();
